@@ -27,9 +27,6 @@ import java.lang.reflect.Type;
 public class MultiCacheBuilder<T> {
 
     @Autowired
-    private MeterRegistry meterRegistry;
-
-    @Autowired
     private CacheProviderHolder<T> cacheProviderHolder;
 
     @Autowired
@@ -38,9 +35,15 @@ public class MultiCacheBuilder<T> {
     @Autowired
     private Environment environment;
 
+    private final MeterRegistry meterRegistry;
+
     private Type type;
 
     private boolean useCommonL1;
+
+    public MultiCacheBuilder(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+    }
 
     /**
      * build a multi cache instance
@@ -60,7 +63,7 @@ public class MultiCacheBuilder<T> {
         multiCache = new MultiCache<T>(cacheName, cacheProviderHolder, cacheLoader, multiCacheStats,
                 multiCacheProperties, clusterStrategy, useCommonL1).build();
         // add metric
-        if (multiCacheProperties.isRecord()){
+        if (multiCacheProperties.isRecord() && meterRegistry != null){
             new MultiCacheMetric(Tags.of("ip", HostNameUtil.getIp(), "name", cacheName), multiCacheStats).bindTo(meterRegistry);
         }
         return multiCache;

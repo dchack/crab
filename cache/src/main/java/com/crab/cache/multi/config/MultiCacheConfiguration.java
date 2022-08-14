@@ -4,6 +4,8 @@ import com.crab.cache.multi.CacheProviderHolder;
 import com.crab.cache.multi.MultiCacheBuilder;
 import com.crab.cache.multi.cluster.ClusterStrategy;
 import com.crab.cache.multi.cluster.RedisClusterStrategy;
+import io.micrometer.core.instrument.MeterRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,9 +24,12 @@ public class MultiCacheConfiguration {
     @Value("${spring.application.name}")
     private String applicationName;
 
+    @Autowired(required = false)
+    MeterRegistry meterRegistry;
+
     @Bean
     public MultiCacheBuilder multiCacheBuilder() {
-        return new MultiCacheBuilder();
+        return new MultiCacheBuilder(meterRegistry);
     }
 
     @Bean
