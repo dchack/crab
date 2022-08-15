@@ -12,7 +12,7 @@ import java.util.function.Function;
 /**
  * TODO
  *
- * @author dongchao
+ * @author hackdc
  * @Date 2022/8/15 11:23 PM
  */
 public class MultiCacheManage implements CacheManager {
