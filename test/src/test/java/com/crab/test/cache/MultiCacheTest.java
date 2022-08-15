@@ -15,10 +15,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class MultiCacheTest {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Test
     public void test(){
-        redisTemplate.boundValueOps("k").get();
+        redisTemplate.boundValueOps("k").set("test");
+        String value = redisTemplate.boundValueOps("k").get();
+        assert "test".equals(value);
     }
+
+
 }

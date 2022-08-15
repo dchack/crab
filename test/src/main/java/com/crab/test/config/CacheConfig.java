@@ -19,7 +19,10 @@ public class CacheConfig {
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(new RedisStandaloneConfiguration("localhost", 55000));
+        RedisStandaloneConfiguration redisStandaloneConfiguration =new RedisStandaloneConfiguration("localhost", 55002);
+        redisStandaloneConfiguration.setPassword("redispw");
+        redisStandaloneConfiguration.setUsername("default");
+        return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
 
     @Bean
