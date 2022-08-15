@@ -119,11 +119,12 @@ public class MultiCache<T> {
                 if (cacheResult.getValue() != null) {
                     return cacheResult;
                 }
-                cacheResult.setLevel(CacheResult.LEVEL_2);
                 cacheResult.setValue(secondLevelCache.get(key));
                 if (cacheResult.getValue() != null) {
+                    cacheResult.setLevel(CacheResult.LEVEL_2);
                     firstLevelCache.set(key, cacheResult.getValue());
                 }else {
+                    cacheResult.setLevel(CacheResult.LEVEL_OUTER);
                     if (cacheLoader != null) {
                         cacheResult.setValue(cacheLoader.load(key));
                         // todo null value
