@@ -12,6 +12,7 @@
         <module>cache</module>
         <module>util</module>
         <module>test</module>
+        <module>crab-cache-spring-boot-starter</module>
     </modules>
 
     <properties>

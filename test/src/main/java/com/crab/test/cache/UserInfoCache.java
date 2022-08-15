@@ -3,6 +3,7 @@ package com.crab.test.cache;
 import com.crab.cache.multi.MultiCache;
 import com.crab.test.dto.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,6 +20,16 @@ public class UserInfoCache {
 
     public UserInfo get(Long userId) {
         return userInfoMultiCache.get(String.valueOf(userId));
+    }
+
+    @Cacheable(cacheNames = "userInfo", cacheResolver = "multiCacheResolver")
+    public UserInfo getCache(Long userId) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(userId);
+        userInfo.setName("test" + userId);
+        userInfo.setWeight(120);
+        userInfo.setHeadUrl("/static/head1.jpg");
+        return userInfo;
     }
 
 }
