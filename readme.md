@@ -9,5 +9,9 @@
 * 幂等（数据一致性）
 * 限流
 
+### 事项
+🪝 更多测试用例编写  ---- donging
+🪝 发布Spring boot starter for cache ---- doing
+
 ### 联系
 hdbysj@163.com
