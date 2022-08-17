@@ -22,6 +22,9 @@ public class MultiCacheTest {
     @Autowired
     private UserInfoService userInfoService;
 
+    @Autowired
+    private UserInfoCache userInfoCache;
+
     @Test
     public void test(){
         redisTemplate.boundValueOps("k").set("test");
@@ -34,5 +37,14 @@ public class MultiCacheTest {
         UserInfo userInfo = userInfoService.getByUserId(1L);
         assert "test".equals(userInfo.getName());
     }
+
+
+    @Test
+    public void getUserInfoCacheableTest(){
+        Long userId = 1L;
+        UserInfo userInfo = userInfoCache.getCache(1L);
+        assert ("test" + userId).equals(userInfo.getName());
+    }
+
 
 }
