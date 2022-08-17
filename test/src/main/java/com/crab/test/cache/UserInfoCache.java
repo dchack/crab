@@ -3,8 +3,12 @@ package com.crab.test.cache;
 import com.crab.cache.multi.MultiCache;
 import com.crab.test.dto.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TODO
@@ -22,7 +26,7 @@ public class UserInfoCache {
         return userInfoMultiCache.get(String.valueOf(userId));
     }
 
-    @Cacheable(cacheNames = "userInfo")
+    @Cacheable(cacheNames = "userInfo", key = "#userId")
     public UserInfo getCache(Long userId) {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserId(userId);
@@ -31,5 +35,19 @@ public class UserInfoCache {
         userInfo.setHeadUrl("/static/head1.jpg");
         return userInfo;
     }
+
+    @CacheEvict(cacheNames = "userInfo", key = "#userId")
+    public void evict(Long userId) {
+    }
+
+    @Cacheable(cacheNames = "allUserInfo")
+    public List<UserInfo> getAll() {
+        List<UserInfo> list = new ArrayList<>();
+        list.add(new UserInfo("crab", 99L));
+        list.add(new UserInfo("crab1", 100L));
+        list.add(new UserInfo("crab2", 101L));
+        return list;
+    }
+
 
 }

@@ -13,6 +13,14 @@ import java.io.Serializable;
 @Data
 public class UserInfo implements Serializable {
 
+    public UserInfo(String name, Long userId) {
+        this.name = name;
+        this.userId = userId;
+    }
+
+    public UserInfo() {
+    }
+
     private String name;
 
     private Long userId;

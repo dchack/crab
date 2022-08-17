@@ -1,12 +1,12 @@
 package com.crab.cache.spring.starter;
 
 import com.crab.cache.multi.MultiCacheBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.CacheResolver;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,6 +31,11 @@ public class CrabCacheSpringConfiguration extends CachingConfigurerSupport {
     @Override
     public MultiCacheResolver cacheResolver() {
         return new MultiCacheResolver(new MultiCacheManage(), multiCacheBuilder);
+    }
+
+    @Override
+    public KeyGenerator keyGenerator() {
+        return new MultiCacheKeyGenerator();
     }
 
 }

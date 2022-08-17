@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.List;
+
 /**
  * TODO
  *
@@ -44,6 +46,20 @@ public class MultiCacheTest {
         Long userId = 1L;
         UserInfo userInfo = userInfoCache.getCache(1L);
         assert ("test" + userId).equals(userInfo.getName());
+    }
+
+    @Test
+    public void evictUserInfoCacheTest() {
+        Long userId = 1L;
+        UserInfo userInfo = userInfoCache.getCache(1L);
+        userInfoCache.evict(userId);
+        userInfoCache.getCache(1L);
+    }
+
+    @Test
+    public void getAllUserInfoTest() {
+        List<UserInfo> list = userInfoCache.getAll();
+        assert list.size() > 0;
     }
 
 
