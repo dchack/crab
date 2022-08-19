@@ -13,6 +13,7 @@
         <module>util</module>
         <module>test</module>
         <module>crab-cache-spring-boot-starter</module>
+        <module>idempotent</module>
     </modules>
 
     <properties>
