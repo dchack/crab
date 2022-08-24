@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 /**
  * TODO
  *
- * @author dongchao
+ * @author hackdc
  * @Date 2022/8/24 8:21 PM
  */
 public class DefaultIdempotentExecutor implements IdempotentExecutor{

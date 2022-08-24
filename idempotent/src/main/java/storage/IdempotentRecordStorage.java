@@ -3,7 +3,7 @@ package storage;
 /**
  * 幂等数据存储层
  *
- * @author dongchao
+ * @author hackdc
  * @Date 2022/8/24 7:04 PM
  */
 public interface IdempotentRecordStorage {

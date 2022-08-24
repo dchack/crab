@@ -3,7 +3,7 @@ package annotation;
 /**
  * TODO
  *
- * @author dongchao
+ * @author hackdc
  * @Date 2022/8/24 12:05 AM
  */
 public @interface Idempotent {

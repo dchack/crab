@@ -3,7 +3,7 @@ package exception;
 /**
  * TODO
  *
- * @author dongchao
+ * @author hackdc
  * @Date 2022/8/24 8:41 PM
  */
 public class IdempotentException extends RuntimeException {
