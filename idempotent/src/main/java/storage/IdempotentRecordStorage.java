@@ -1,7 +1,7 @@
 package storage;
 
 /**
- * 幂等数据存储层
+ * Idempotent record
  *
  * @author hackdc
  * @Date 2022/8/24 7:04 PM
@@ -9,21 +9,20 @@ package storage;
 public interface IdempotentRecordStorage {
 
     /**
-     * 永久幂等
+     * Permanent idempotent key storage
      * @param key
      */
     void setKey(String key);
 
     /**
-     * 有过期时间的幂等
+     * Expire idempotent key storage
      * @param key
      * @param expire 秒
      */
     void setKey(String key, long expire);
 
     /**
-     * 检查业务是否执行完成
-     * 存在key 表示已经执行完成
+     * Verify that the execution is complete
      * @param key
      * @return
      */

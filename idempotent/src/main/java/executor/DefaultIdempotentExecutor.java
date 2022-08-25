@@ -6,7 +6,7 @@ import storage.IdempotentRecordStorage;
 import java.util.function.Supplier;
 
 /**
- * TODO
+ * Default executor idempotent
  *
  * @author hackdc
  * @Date 2022/8/24 8:21 PM

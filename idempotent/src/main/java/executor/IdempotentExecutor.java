@@ -3,7 +3,7 @@ package executor;
 import java.util.function.Supplier;
 
 /**
- * TODO
+ * Idempotent executor
  *
  * @author hackdc
  * @Date 2022/8/24 8:21 PM

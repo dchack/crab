@@ -1,7 +1,7 @@
 package annotation;
 
 /**
- * TODO
+ * Idempotent annotation use on method
  *
  * @author hackdc
  * @Date 2022/8/24 12:05 AM
