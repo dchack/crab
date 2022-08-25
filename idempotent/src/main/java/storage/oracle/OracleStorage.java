@@ -2,6 +2,7 @@ package storage.oracle;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import storage.IdempotentRecordStorage;
+import storage.StorageTypeEnum;
 
 import java.util.Date;
 
@@ -27,15 +28,21 @@ public class OracleStorage implements IdempotentRecordStorage {
     @Override
     public void setKey(String key, long expire) {
         Date expireDate = expire == 0 ? null : new Date(System.currentTimeMillis() + expire * 1000);
-        String sql = "insert into IDEMPOTENT_RECORD(`KEY`, CREATE_TIME, EXPIRE_TIME) values(?,?,?,?)";
+        String sql = "insert into AAP_IDEMPOTENT_RECORD(ID, KEY, CREATE_TIME, EXPIRE_TIME) values(IDEMPOTENT_RECORD_SEQUENCE.nextval, ?,?,?)";
         jdbcTemplate.update(sql, key, new Date(), expireDate);
     }
 
     @Override
     public boolean hasKey(String key) {
-        String sql = "select count(1) from IDEMPOTENT_RECORD WHERE KEY = " + key;
+        String sql = "select count(1) from AAP_IDEMPOTENT_RECORD WHERE KEY = ?";
         Integer value = jdbcTemplate.queryForObject(sql, Integer.class, key);
         return value > 0;
     }
 
+    @Override
+    public StorageTypeEnum getType() {
+        return StorageTypeEnum.ORACLE;
+    }
+
 }
+

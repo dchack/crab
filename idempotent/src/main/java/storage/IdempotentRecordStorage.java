@@ -27,4 +27,10 @@ public interface IdempotentRecordStorage {
      * @return
      */
     boolean hasKey(String key);
+
+    /**
+     * Get type
+     * @return
+     */
+    StorageTypeEnum getType();
 }

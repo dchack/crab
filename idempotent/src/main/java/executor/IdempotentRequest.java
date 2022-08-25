@@ -9,23 +9,34 @@ public class IdempotentRequest {
 
     private String key;
 
-    private long expire;
+    private long idempotentExpire;
+
+    private long lockExpire;
 
     public IdempotentRequest setKey(String key) {
         this.key = key;
         return this;
     }
 
-    public IdempotentRequest setExpire(long expire) {
-        this.expire = expire;
+    public IdempotentRequest setIdempotentExpire(long idempotentExpire) {
+        this.idempotentExpire = idempotentExpire;
         return this;
+    }
+
+    public IdempotentRequest setLockExpire(long lockExpire) {
+        this.lockExpire = lockExpire;
+        return this;
+    }
+
+    public long getIdempotentExpire() {
+        return idempotentExpire;
     }
 
     public String getKey() {
         return key;
     }
 
-    public long getExpire() {
-        return expire;
+    public long getLockExpire() {
+        return lockExpire;
     }
 }

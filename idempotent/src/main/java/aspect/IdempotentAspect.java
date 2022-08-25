@@ -8,8 +8,11 @@ import executor.IdempotentRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -25,6 +28,7 @@ import java.lang.reflect.Method;
  * @Date 2022/8/24 8:02 PM
  */
 @Aspect
+@Order(Ordered.LOWEST_PRECEDENCE - 10)
 public class IdempotentAspect {
 
     private IdempotentExecutor idempotentExecutor;
@@ -33,28 +37,38 @@ public class IdempotentAspect {
         this.idempotentExecutor = idempotentExecutor;
     }
 
-    @Around(value = "@annotation(idempotent)")
-    public Object around(ProceedingJoinPoint joinpoint, Idempotent idempotent) throws Throwable {
+    @Pointcut("@annotation(com.psd.commons.idempotent.annotation.Idempotent)")
+    public void pointCut() {
+
+    }
+
+    @Around(value = "pointCut()")
+    public Object around(ProceedingJoinPoint joinpoint) {
         Object[] args = joinpoint.getArgs();
         Method method = ((MethodSignature) joinpoint.getSignature()).getMethod();
-        long expire = idempotent.expire();
+        Idempotent idempotentAnnotation = method.getAnnotation(Idempotent.class);
+        long idempotentExpire = idempotentAnnotation.idempotentExpire();
+        long lockExpire = idempotentAnnotation.lockExpire();
 
         String key;
-        if (StringUtils.hasText(idempotent.key())) {
-            key = parseKey(idempotent.key(), method, args);
+        if (StringUtils.hasText(idempotentAnnotation.key())) {
+            key = parseKey(idempotentAnnotation.key(), method, args);
         } else {
             key = IdempotentContextHolder.getContext().get("idempotentId");
         }
 
-        String userInputKey = idempotent.name();
+        if(key == null) {
+            throw new IdempotentException("idempotent key is null");
+        }
+
+        String userInputKey = idempotentAnnotation.name();
         if (!StringUtils.hasText(userInputKey)) {
             userInputKey = method.getName();
         }
         String idempotentKey = userInputKey + ":" + key;
 
         IdempotentRequest request = new IdempotentRequest().setKey(idempotentKey)
-                .setExpire(expire);
-
+                .setIdempotentExpire(idempotentExpire).setLockExpire(lockExpire);
 
         return idempotentExecutor.execute(request, () -> {
             try {
@@ -63,14 +77,13 @@ public class IdempotentAspect {
                 throw new RuntimeException(e);
             }
         }, () -> {
-            throw new IdempotentException("Repeated requests");
+            throw new IdempotentException("重复请求");
         });
 
     }
 
-
     /**
-     * 获取幂等的key, 支持SPEL表达式
+     * parse key for SPEL
      * @param key
      * @param method
      * @param args
@@ -80,7 +93,8 @@ public class IdempotentAspect {
         LocalVariableTableParameterNameDiscoverer nameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
         String[] paraNameArr = nameDiscoverer.getParameterNames(method);
         if (paraNameArr == null || paraNameArr.length <= 0) {
-            throw new RuntimeException("SPEL parse error, the target method cannot be a no-parameter method");
+            // Parameters must not be none
+            return null;
         }
         ExpressionParser parser = new SpelExpressionParser();
         StandardEvaluationContext context = new StandardEvaluationContext();
@@ -94,3 +108,4 @@ public class IdempotentAspect {
         }
     }
 }
+
