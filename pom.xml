@@ -15,6 +15,7 @@
         <module>crab-cache-spring-boot-starter</module>
         <module>idempotent</module>
         <module>lock</module>
+        <module>limiter</module>
     </modules>
 
     <properties>
