@@ -2,6 +2,7 @@ package exception;
 
 /**
  * Idempotent exception
+ * By catch this exception, means occur idempotent limit.
  *
  * @author hackdc
  * @Date 2022/8/24 8:41 PM

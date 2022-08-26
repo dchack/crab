@@ -58,7 +58,7 @@ public class IdempotentAspect {
         }
 
         if(key == null) {
-            throw new IdempotentException("idempotent key is null");
+            throw new RuntimeException("idempotent key is null");
         }
 
         String userInputKey = idempotentAnnotation.name();
