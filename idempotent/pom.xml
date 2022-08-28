@@ -33,6 +33,13 @@
             <groupId>com.hope.crab</groupId>
             <artifactId>cache</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>10.2.0.1.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>
