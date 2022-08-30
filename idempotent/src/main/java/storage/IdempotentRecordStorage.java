@@ -9,12 +9,6 @@ package storage;
 public interface IdempotentRecordStorage {
 
     /**
-     * Permanent idempotent key storage
-     * @param key
-     */
-    void setKey(String key);
-
-    /**
      * Expire idempotent key storage
      * @param key
      * @param expire 秒

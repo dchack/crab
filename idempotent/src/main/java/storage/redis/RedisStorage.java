@@ -7,7 +7,7 @@ import storage.StorageTypeEnum;
 import java.util.concurrent.TimeUnit;
 
 /**
- * TODO
+ * redis storage impl for idempotent that has expired time
  *
  * @author hackdc
  * @Date 2022/8/25 1:52 PM
@@ -21,13 +21,14 @@ public class RedisStorage implements IdempotentRecordStorage {
     }
 
     @Override
-    public void setKey(String key) {
-        redisTemplate.opsForValue().set(key, "1");
-    }
-
-    @Override
     public void setKey(String key, long expire) {
-        redisTemplate.opsForValue().set(key, "1", expire, TimeUnit.SECONDS);
+        try {
+            redisTemplate.opsForValue().set(key, "1", expire, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            // redis cache do not have transaction
+            redisTemplate.delete(key);
+            throw e;
+        }
     }
 
     @Override

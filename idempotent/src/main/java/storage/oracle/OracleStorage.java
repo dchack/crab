@@ -21,11 +21,6 @@ public class OracleStorage implements IdempotentRecordStorage {
     }
 
     @Override
-    public void setKey(String key) {
-        setKey(key,0);
-    }
-
-    @Override
     public void setKey(String key, long expire) {
         Date expireDate = expire == 0 ? null : new Date(System.currentTimeMillis() + expire * 1000);
         String sql = "insert into AAP_IDEMPOTENT_RECORD(ID, KEY, CREATE_TIME, EXPIRE_TIME) values(IDEMPOTENT_RECORD_SEQUENCE.nextval, ?,?,?)";
