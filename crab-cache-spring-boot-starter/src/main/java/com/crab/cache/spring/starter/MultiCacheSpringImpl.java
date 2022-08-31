@@ -20,7 +20,7 @@ public class MultiCacheSpringImpl extends AbstractValueAdaptingCache {
     private final String cacheName;
 
     protected MultiCacheSpringImpl(MultiCache multiCache, String cacheName) {
-        super(false);
+        super(true);
         this.multiCache = multiCache;
         this.cacheName = cacheName;
     }
@@ -69,7 +69,7 @@ public class MultiCacheSpringImpl extends AbstractValueAdaptingCache {
 
     @Override
     public void put(Object key, Object value) {
-        multiCache.put(String.valueOf(key), value);
+        multiCache.put(String.valueOf(key), toStoreValue(value));
     }
 
     @Override

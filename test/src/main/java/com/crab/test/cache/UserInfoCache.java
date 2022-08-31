@@ -36,6 +36,11 @@ public class UserInfoCache {
         return userInfo;
     }
 
+    @Cacheable(cacheNames = "userInfo-null", key = "#userId")
+    public UserInfo getCacheNull(Long userId) {
+        return null;
+    }
+
     @CacheEvict(cacheNames = "userInfo", key = "#userId")
     public void evict(Long userId) {
     }

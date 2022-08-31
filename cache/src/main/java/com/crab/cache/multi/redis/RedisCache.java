@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.*;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * redis impl
@@ -40,7 +41,7 @@ public class RedisCache<T> implements SecondLevelCache<T> {
 
     @Override
     public void set(String key, T value) {
-        redisTemplate.boundValueOps(getRedisKey(key)).set(castJson(value), redisProperties.getExpire());
+        redisTemplate.boundValueOps(getRedisKey(key)).set(castJson(value), redisProperties.getExpire(), TimeUnit.SECONDS);
     }
 
     @Override
