@@ -52,6 +52,7 @@ public class MultiCacheTest {
     public void getUserInfoCacheableNullTest(){
         Long userId = 2L;
         UserInfo userInfo = userInfoCache.getCacheNull(userId);
+        UserInfo userInfo1 = userInfoCache.getCacheNull(userId);
         assert userInfo == null;
     }
 
