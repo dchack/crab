@@ -87,12 +87,13 @@ public class MultiCache<T> {
         if (multiCacheProperties.isRecord()) {
             multiCacheStats.record(cacheResult.getLevel());
         }
-        return cacheResult.getValue();
+        return cacheResult.getValue() == null ? null : cacheResult.getValue().get();
     }
 
     public void put(String key, T value) {
-        firstLevelCache.set(key, value);
-        secondLevelCache.set(key, value);
+        Item<T> item = new Item<>(value);
+        firstLevelCache.set(key, item);
+        secondLevelCache.set(key, item);
     }
 
     public void remove(String key) {
@@ -126,7 +127,7 @@ public class MultiCache<T> {
                 }else {
                     cacheResult.setLevel(CacheResult.LEVEL_OUTER);
                     if (cacheLoader != null) {
-                        cacheResult.setValue(cacheLoader.load(key));
+                        cacheResult.setValue(new Item<>(cacheLoader.load(key)));
                         // todo null value
                         if (cacheResult.getValue() != null) {
                             firstLevelCache.set(key, cacheResult.getValue());
@@ -142,7 +143,7 @@ public class MultiCache<T> {
     }
 
     private void storeFirstCache() {
-        Map<String, T> preheatMap = secondLevelCache.getPreheatMap();
+        Map<String, Item<T>> preheatMap = secondLevelCache.getPreheatMap();
         if (MapUtils.isNotEmpty(preheatMap)) {
             firstLevelCache.fill(preheatMap);
             log.info("Multi cache init, fill first cache success : {}, {}", cacheName, preheatMap.size());

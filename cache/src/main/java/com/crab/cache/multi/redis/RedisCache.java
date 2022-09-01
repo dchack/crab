@@ -1,15 +1,24 @@
 package com.crab.cache.multi.redis;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.crab.cache.multi.Item;
 import com.crab.cache.multi.SecondLevelCache;
 import com.crab.cache.multi.config.RedisProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.Cursor;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -34,13 +43,13 @@ public class RedisCache<T> implements SecondLevelCache<T> {
     }
 
     @Override
-    public T get(String key) {
+    public Item<T> get(String key) {
         String value = redisTemplate.boundValueOps(getRedisKey(key)).get();
         return castClass(value);
     }
 
     @Override
-    public void set(String key, T value) {
+    public void set(String key, Item<T> value) {
         redisTemplate.boundValueOps(getRedisKey(key)).set(castJson(value), redisProperties.getExpire(), TimeUnit.SECONDS);
     }
 
@@ -82,21 +91,21 @@ public class RedisCache<T> implements SecondLevelCache<T> {
         return bizKey + ":" + key;
     }
 
-    private T castClass(String value) {
-        return JSON.parseObject(value, type);
+    private Item<T> castClass(String value) {
+        return JSON.parseObject(value, new TypeReference<Item<T> >(type){});
     }
 
-    private String castJson(Object value) {
-        return JSON.toJSONString(value);
+    private String castJson(Item<T> value) {
+        return JSONObject.toJSONString(value);
     }
 
     @Override
-    public Map<String, T> getPreheatMap() {
+    public Map<String, Item<T>> getPreheatMap() {
         String scanKey = bizKey + "*";
         try{
             Set<String> keys = scan(scanKey, 200);
             if(CollectionUtils.isNotEmpty(keys)) {
-                Map<String, T> map = new HashMap<>(keys.size());
+                Map<String, Item<T>> map = new HashMap<>(keys.size());
                 for (String key : keys) {
                     String value = redisTemplate.boundValueOps(getRedisKey(key)).get();
                     if (value != null) {

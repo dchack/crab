@@ -1,6 +1,7 @@
 package com.crab.cache.multi.caffeine;
 
 import com.crab.cache.multi.FirstLevelCache;
+import com.crab.cache.multi.Item;
 import com.github.benmanes.caffeine.cache.Cache;
 
 import java.util.Map;
@@ -13,19 +14,19 @@ import java.util.Map;
  */
 public class CaffeineCache<T> implements FirstLevelCache<T> {
 
-    private Cache<String, T> cache;
+    private Cache<String, Item<T>> cache;
 
-    public void setCache(Cache<String, T> cache) {
+    public void setCache(Cache<String, Item<T>> cache) {
         this.cache = cache;
     }
 
     @Override
-    public T get(String key) {
+    public Item<T> get(String key) {
         return cache.getIfPresent(key);
     }
 
     @Override
-    public void set(String key, T value) {
+    public void set(String key, Item<T> value) {
         cache.put(key, value);
     }
 
@@ -40,7 +41,7 @@ public class CaffeineCache<T> implements FirstLevelCache<T> {
     }
 
     @Override
-    public void fill(Map<String, T> values) {
+    public void fill(Map<String, Item<T>> values) {
         cache.putAll(values);
     }
 

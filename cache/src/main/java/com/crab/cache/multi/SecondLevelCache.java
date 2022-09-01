@@ -13,5 +13,5 @@ public interface SecondLevelCache<T> extends Cache<T>{
      * get pre store map for first cache
      * @return
      */
-    Map<String, T> getPreheatMap();
+    Map<String, Item<T>> getPreheatMap();
 }

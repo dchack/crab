@@ -12,7 +12,7 @@ public class CacheResult<T> {
     public final static byte LEVEL_2 	 = 2;
     public final static byte LEVEL_OUTER = 3;
 
-    private T value;
+    private Item<T> value;
 
     private byte level;
 
@@ -20,12 +20,12 @@ public class CacheResult<T> {
         this(null, level);
     }
 
-    public CacheResult(T value, byte level) {
+    public CacheResult(Item<T> value, byte level) {
         this.value = value;
         this.level = level;
     }
 
-    public T getValue() {
+    public Item<T> getValue() {
         return value;
     }
 
@@ -33,7 +33,7 @@ public class CacheResult<T> {
         return level;
     }
 
-    public void setValue(T value) {
+    public void setValue(Item<T> value) {
         this.value = value;
     }
 

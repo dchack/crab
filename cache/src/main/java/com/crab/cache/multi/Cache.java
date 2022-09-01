@@ -7,9 +7,9 @@ package com.crab.cache.multi;
  */
 public interface Cache<T> {
 
-    T get(String key);
+    Item<T> get(String key);
 
-    void set(String key, T value);
+    void set(String key, Item<T> value);
 
     void remove(String key);
 

@@ -9,6 +9,6 @@ import java.util.Map;
  */
 public interface FirstLevelCache<T> extends Cache<T> {
 
-    void fill(Map<String, T> values);
+    void fill(Map<String, Item<T>> values);
 
 }
