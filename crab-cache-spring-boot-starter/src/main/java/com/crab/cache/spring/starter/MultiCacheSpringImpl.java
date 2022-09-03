@@ -61,15 +61,14 @@ public class MultiCacheSpringImpl extends AbstractValueAdaptingCache {
             } catch (Exception e) {
                 log.error("MultiCacheSpringImpl get error", e);
             }
-            Object storeValue = toStoreValue(value);
-            put(key, storeValue);
+            put(key, value);
             return (T) value;
         }
     }
 
     @Override
     public void put(Object key, Object value) {
-        multiCache.put(String.valueOf(key), toStoreValue(value));
+        multiCache.put(String.valueOf(key), value);
     }
 
     @Override

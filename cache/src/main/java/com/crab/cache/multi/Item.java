@@ -14,9 +14,15 @@ import java.io.Serializable;
 public class Item<T> implements Serializable {
 
     private T value;
+    private byte isNull;
 
+    /**
+     * support item created for store null value
+     * @param value
+     */
     public Item(T value) {
         this.value = value;
+        this.isNull = value == null ? (byte)1 : 0;
     }
 
     public Item() {
@@ -24,5 +30,9 @@ public class Item<T> implements Serializable {
 
     public T get() {
         return value;
+    }
+
+    public boolean isNull(){
+        return this.value == null;
     }
 }
