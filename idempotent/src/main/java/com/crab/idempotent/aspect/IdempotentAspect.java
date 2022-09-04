@@ -77,7 +77,7 @@ public class IdempotentAspect {
                 throw new RuntimeException(e);
             }
         }, () -> {
-            throw new IdempotentException("重复请求");
+            throw new IdempotentException("repeater request");
         });
 
     }
