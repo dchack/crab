@@ -1,4 +1,4 @@
-package storage;
+package com.crab.idempotent.storage;
 
 /**
  * Idempotent record

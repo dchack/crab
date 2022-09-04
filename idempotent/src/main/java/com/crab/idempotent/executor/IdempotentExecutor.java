@@ -1,4 +1,4 @@
-package executor;
+package com.crab.idempotent.executor;
 
 import java.util.function.Supplier;
 

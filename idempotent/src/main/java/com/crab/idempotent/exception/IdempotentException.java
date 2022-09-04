@@ -1,4 +1,4 @@
-package exception;
+package com.crab.idempotent.exception;
 
 /**
  * Idempotent exception

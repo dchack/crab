@@ -1,10 +1,10 @@
-package aspect;
+package com.crab.idempotent.aspect;
 
-import annotation.Idempotent;
-import context.IdempotentContextHolder;
-import exception.IdempotentException;
-import executor.IdempotentExecutor;
-import executor.IdempotentRequest;
+import com.crab.idempotent.annotation.Idempotent;
+import com.crab.idempotent.exception.IdempotentException;
+import com.crab.idempotent.executor.IdempotentRequest;
+import com.crab.idempotent.context.IdempotentContextHolder;
+import com.crab.idempotent.executor.IdempotentExecutor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -37,7 +37,7 @@ public class IdempotentAspect {
         this.idempotentExecutor = idempotentExecutor;
     }
 
-    @Pointcut("@annotation(com.psd.commons.idempotent.annotation.Idempotent)")
+    @Pointcut("@annotation(com.crab.idempotent.annotation.Idempotent)")
     public void pointCut() {
 
     }

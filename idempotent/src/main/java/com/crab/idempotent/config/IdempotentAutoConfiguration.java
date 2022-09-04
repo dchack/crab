@@ -1,17 +1,17 @@
-package config;
+package com.crab.idempotent.config;
 
-import aspect.IdempotentAspect;
-import executor.IdempotentExecutor;
+import com.crab.idempotent.aspect.IdempotentAspect;
+import com.crab.idempotent.executor.IdempotentExecutor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
-import storage.IdempotentRecordStorage;
-import storage.StorageFactory;
-import storage.oracle.OracleStorage;
-import storage.redis.RedisStorage;
+import com.crab.idempotent.storage.IdempotentRecordStorage;
+import com.crab.idempotent.storage.StorageFactory;
+import com.crab.idempotent.storage.oracle.OracleStorage;
+import com.crab.idempotent.storage.redis.RedisStorage;
 
 import java.util.List;
 

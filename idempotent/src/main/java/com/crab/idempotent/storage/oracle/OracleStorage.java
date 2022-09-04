@@ -1,8 +1,8 @@
-package storage.oracle;
+package com.crab.idempotent.storage.oracle;
 
+import com.crab.idempotent.storage.StorageTypeEnum;
 import org.springframework.jdbc.core.JdbcTemplate;
-import storage.IdempotentRecordStorage;
-import storage.StorageTypeEnum;
+import com.crab.idempotent.storage.IdempotentRecordStorage;
 
 import java.util.Date;
 

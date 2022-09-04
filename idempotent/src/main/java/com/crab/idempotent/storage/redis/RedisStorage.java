@@ -1,8 +1,8 @@
-package storage.redis;
+package com.crab.idempotent.storage.redis;
 
+import com.crab.idempotent.storage.IdempotentRecordStorage;
+import com.crab.idempotent.storage.StorageTypeEnum;
 import org.springframework.data.redis.core.RedisTemplate;
-import storage.IdempotentRecordStorage;
-import storage.StorageTypeEnum;
 
 import java.util.concurrent.TimeUnit;
 

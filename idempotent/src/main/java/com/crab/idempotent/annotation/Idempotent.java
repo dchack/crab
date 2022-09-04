@@ -1,4 +1,4 @@
-package annotation;
+package com.crab.idempotent.annotation;
 
 import java.lang.annotation.*;
 

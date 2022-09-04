@@ -1,9 +1,9 @@
-package executor;
+package com.crab.idempotent.executor;
 
 
-import storage.IdempotentRecordStorage;
-import storage.StorageFactory;
-import storage.StorageTypeEnum;
+import com.crab.idempotent.storage.StorageFactory;
+import com.crab.idempotent.storage.IdempotentRecordStorage;
+import com.crab.idempotent.storage.StorageTypeEnum;
 
 import java.util.function.Supplier;
 
