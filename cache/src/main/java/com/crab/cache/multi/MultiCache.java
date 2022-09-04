@@ -81,19 +81,18 @@ public class MultiCache<T> {
         return this;
     }
 
-    public T get(String key) {
+    public Item<T> get(String key) {
         CacheResult<T> cacheResult = getValue(key);
 
         if (multiCacheProperties.isRecord()) {
             multiCacheStats.record(cacheResult.getLevel());
         }
-        return cacheResult.getValue() == null ? null : cacheResult.getValue().get();
+        return cacheResult.getValue();
     }
 
-    public void put(String key, T value) {
-        Item<T> item = new Item<>(value);
-        firstLevelCache.set(key, item);
-        secondLevelCache.set(key, item);
+    public void put(String key, Item<T> value) {
+        firstLevelCache.set(key, value);
+        secondLevelCache.set(key, value);
     }
 
     public void remove(String key) {

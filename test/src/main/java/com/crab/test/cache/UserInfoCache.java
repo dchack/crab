@@ -23,7 +23,8 @@ public class UserInfoCache {
     private MultiCache<UserInfo> userInfoMultiCache;
 
     public UserInfo get(Long userId) {
-        return userInfoMultiCache.get(String.valueOf(userId));
+//        return userInfoMultiCache.get(String.valueOf(userId));
+        return null;
     }
 
     @Cacheable(cacheNames = "userInfo", key = "#userId")

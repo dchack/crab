@@ -1,8 +1,10 @@
 package com.crab.cache.spring.starter;
 
+import com.crab.cache.multi.Item;
 import com.crab.cache.multi.MultiCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
+import org.springframework.cache.support.NullValue;
 
 import java.util.concurrent.Callable;
 
@@ -27,7 +29,18 @@ public class MultiCacheSpringImpl extends AbstractValueAdaptingCache {
 
     @Override
     protected Object lookup(Object key) {
-        return multiCache.get(String.valueOf(key));
+        Item item = multiCache.get(String.valueOf(key));
+        return fromStore(item);
+    }
+
+    private Object fromStore(Item item) {
+        if (item != null) {
+            if(item.isNull()) {
+                return NullValue.INSTANCE;
+            }
+            return item.get();
+        }
+        return null;
     }
 
     @Override
@@ -61,14 +74,15 @@ public class MultiCacheSpringImpl extends AbstractValueAdaptingCache {
             } catch (Exception e) {
                 log.error("MultiCacheSpringImpl get error", e);
             }
-            put(key, value);
+            put(key, toStoreValue(value));
             return (T) value;
         }
     }
 
     @Override
     public void put(Object key, Object value) {
-        multiCache.put(String.valueOf(key), value);
+        multiCache.put(String.valueOf(key),
+                new Item<>(NullValue.INSTANCE == value ? null : value));
     }
 
     @Override
