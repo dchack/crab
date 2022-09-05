@@ -1,7 +1,7 @@
 package com.crab.cache.multi;
 
 /**
- * developer impl this class provide data
+ * Developer impl this class provide data
  * from DB source for store to multi cache
  *
  * @author hackdc

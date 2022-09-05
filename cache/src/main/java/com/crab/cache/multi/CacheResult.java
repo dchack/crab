@@ -1,7 +1,7 @@
 package com.crab.cache.multi;
 
 /**
- * cache item wrapper
+ * Cache item wrapper, support record hit level
  *
  * @author hackdc
  * @Date 2022/7/30 11:39 PM

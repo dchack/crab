@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * core class for multi cache API
+ * Core class for provide multi cache API
  *
  * @author hackdc
  * @Date 2022/7/29 3:29 PM
@@ -68,10 +68,10 @@ public class MultiCache<T> {
                 firstLevelCache = (FirstLevelCache<T>) firstLevelCacheProvider.build(transformL1CacheName(cacheName, useCommonL1));
                 secondLevelCache = (SecondLevelCache<T>) secondLevelCacheProvider.build(cacheName);
                 if (multiCacheProperties.isPreheat()) {
-                    // store data to first cache from second cache
-                    storeFirstCache();
+                    // prepare store data to first cache from second cache
+                    preStoreFirstCache();
                 }
-                // connect to cluster local cache
+                // connect to local cache cluster
                 clusterStrategy.connect();
                 INITED.set(true);
             }
@@ -90,7 +90,7 @@ public class MultiCache<T> {
         return cacheResult.getValue();
     }
 
-    public void put(String key, Item<T> value) {
+    public void put(String key, final Item<T> value) {
         firstLevelCache.set(key, value);
         secondLevelCache.set(key, value);
     }
@@ -141,7 +141,7 @@ public class MultiCache<T> {
         return cacheResult;
     }
 
-    private void storeFirstCache() {
+    private void preStoreFirstCache() {
         Map<String, Item<T>> preheatMap = secondLevelCache.getPreheatMap();
         if (MapUtils.isNotEmpty(preheatMap)) {
             firstLevelCache.fill(preheatMap);
