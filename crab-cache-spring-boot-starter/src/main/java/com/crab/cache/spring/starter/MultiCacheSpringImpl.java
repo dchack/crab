@@ -89,6 +89,9 @@ public class MultiCacheSpringImpl extends AbstractValueAdaptingCache {
     public ValueWrapper putIfAbsent(Object key, Object value) {
         // ignore absent
         Object lookupValue = lookup(key);
+        if (lookupValue == null){
+            put(key, value);
+        }
         return toValueWrapper(lookupValue);
     }
 
