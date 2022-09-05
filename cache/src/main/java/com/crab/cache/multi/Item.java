@@ -5,7 +5,8 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * use Item to store cache value
+ * Use to store cache value
+ * (isNull == 1) is represented value is null and stored in cache
  *
  * @author dongchao
  * @Date 2022/9/1 2:22 PM
