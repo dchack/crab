@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Use to store cache value
  * (isNull == 1) is represented value is null and stored in cache
  *
- * @author dongchao
+ * @author hackdc
  * @Date 2022/9/1 2:22 PM
  */
 @Data
