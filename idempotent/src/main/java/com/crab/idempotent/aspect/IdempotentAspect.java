@@ -23,6 +23,9 @@ import java.lang.reflect.Method;
 
 /**
  * Idempotent Aspect
+ * If you use Spring Transaction, must adjust order of @Transaction
+ * For example:
+ * @EnableTransactionManagement(order = Ordered.LOWEST_PRECEDENCE - 100)
  *
  * @author hackdc
  * @Date 2022/8/24 8:02 PM
