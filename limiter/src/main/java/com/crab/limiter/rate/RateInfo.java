@@ -1,4 +1,4 @@
-package rate;
+package com.crab.limiter.rate;
 
 import lombok.Data;
 

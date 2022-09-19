@@ -1,5 +1,8 @@
+package com.crab.limiter.redis;
+
+import com.crab.limiter.RateController;
+import com.crab.limiter.rate.RateInfo;
 import org.springframework.data.redis.core.RedisTemplate;
-import rate.RateInfo;
 
 import java.util.concurrent.TimeUnit;
 
@@ -9,16 +12,18 @@ import java.util.concurrent.TimeUnit;
  * @author hackdc
  * @Date 2022/9/8 2:10 PM
  */
-public class RedisWindowRateController implements RateController{
+public class RedisFixWindowRateController implements RateController {
 
     private RedisTemplate<String, String> redisTemplate;
 
     private static final String LIMIT_KEY = "limit:key";
 
-    public RedisWindowRateController(RedisTemplate<String, String> redisTemplate) {
+    public RedisFixWindowRateController(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
+
+    // todo rua
     @Override
     public boolean isAllow(RateInfo rateInfo) {
         String limitKey = LIMIT_KEY + rateInfo.getName();
