@@ -9,5 +9,6 @@ package com.crab.idempotent.storage;
 public enum StorageTypeEnum {
 
     REDIS,
-    ORACLE
+    ORACLE,
+    MYSQL
 }

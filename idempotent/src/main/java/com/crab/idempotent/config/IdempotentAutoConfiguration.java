@@ -2,16 +2,17 @@ package com.crab.idempotent.config;
 
 import com.crab.idempotent.aspect.IdempotentAspect;
 import com.crab.idempotent.executor.IdempotentExecutor;
+import com.crab.idempotent.storage.IdempotentRecordStorage;
+import com.crab.idempotent.storage.StorageFactory;
+import com.crab.idempotent.storage.mysql.MysqlStorage;
+import com.crab.idempotent.storage.oracle.OracleStorage;
+import com.crab.idempotent.storage.redis.RedisStorage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
-import com.crab.idempotent.storage.IdempotentRecordStorage;
-import com.crab.idempotent.storage.StorageFactory;
-import com.crab.idempotent.storage.oracle.OracleStorage;
-import com.crab.idempotent.storage.redis.RedisStorage;
 
 import java.util.List;
 
@@ -39,6 +40,12 @@ public class IdempotentAutoConfiguration {
     @ConditionalOnClass(oracle.jdbc.OracleConnection.class)
     public OracleStorage oracleStorage() {
         return new OracleStorage(jdbcTemplate);
+    }
+
+    @Bean
+    @ConditionalOnClass(com.mysql.cj.MysqlConnection.class)
+    public MysqlStorage mysqlStorage() {
+        return new MysqlStorage(jdbcTemplate);
     }
 
     @Bean
