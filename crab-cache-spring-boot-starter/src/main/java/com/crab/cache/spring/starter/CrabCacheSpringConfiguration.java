@@ -32,9 +32,4 @@ public class CrabCacheSpringConfiguration extends CachingConfigurerSupport {
         return new MultiCacheResolver(new MultiCacheManage(), multiCacheBuilder);
     }
 
-//    @Override
-//    public KeyGenerator keyGenerator() {
-//        return new MultiCacheKeyGenerator();
-//    }
-
 }

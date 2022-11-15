@@ -7,10 +7,12 @@ import com.crab.cache.multi.cluster.RedisClusterStrategy;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 
 /**
  * Multi cache builder for spring bean
@@ -25,7 +27,10 @@ public class MultiCacheConfiguration {
     private String applicationName;
 
     @Autowired(required = false)
-    MeterRegistry meterRegistry;
+    private MeterRegistry meterRegistry;
+
+    @Autowired
+    private RedisMessageListenerContainer redisMessageListenerContainer;
 
     @Bean
     public MultiCacheBuilder multiCacheBuilder() {
@@ -38,8 +43,12 @@ public class MultiCacheConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(ClusterStrategy.class)
     public ClusterStrategy clusterStrategy(RedisTemplate<String, String> redisTemplate) {
-        return new RedisClusterStrategy(redisTemplate);
+        RedisClusterStrategy redisClusterStrategy = new RedisClusterStrategy(redisTemplate, redisMessageListenerContainer);
+        // connect to cache cluster
+        redisClusterStrategy.connect();
+        return redisClusterStrategy;
     }
 
 }

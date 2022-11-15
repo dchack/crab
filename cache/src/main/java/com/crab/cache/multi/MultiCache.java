@@ -71,8 +71,6 @@ public class MultiCache<T> {
                     // prepare store data to first cache from second cache
                     preStoreFirstCache();
                 }
-                // connect to local cache cluster
-                clusterStrategy.connect();
                 INITED.set(true);
             }
         }finally {

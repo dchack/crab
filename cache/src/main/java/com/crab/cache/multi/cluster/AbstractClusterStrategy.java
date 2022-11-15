@@ -5,7 +5,7 @@ import com.crab.cache.multi.CacheProviderHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  *
@@ -18,7 +18,7 @@ public abstract class AbstractClusterStrategy implements ClusterStrategy{
     /**
      * Records handled commands
      */
-    private static CopyOnWriteArraySet<String> HANDLED_CMD_SET = new CopyOnWriteArraySet<>();
+    private static ConcurrentSkipListSet<String> HANDLED_CMD_SET = new ConcurrentSkipListSet<>();
 
     @Autowired
     private CacheProviderHolder cacheProviderHolder;
@@ -61,6 +61,10 @@ public abstract class AbstractClusterStrategy implements ClusterStrategy{
      */
     protected boolean isRepeatedCmd(Command command) {
         String handledCmdKey = command.getUniqueIdentification();
-        return HANDLED_CMD_SET.contains(handledCmdKey);
+        if (HANDLED_CMD_SET.contains(handledCmdKey)) {
+            return true;
+        }
+        HANDLED_CMD_SET.add(handledCmdKey);
+        return false;
     }
 }

@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.crab.util.HostNameUtil;
 import com.crab.util.RandomUtil;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 
 /**
  *
@@ -19,12 +21,17 @@ public class RedisClusterStrategy extends AbstractClusterStrategy{
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    public RedisClusterStrategy(RedisTemplate<String, String> redisTemplate) {
+    private final RedisMessageListenerContainer redisMessageListenerContainer;
+
+    public RedisClusterStrategy(RedisTemplate<String, String> redisTemplate, RedisMessageListenerContainer redisMessageListenerContainer) {
         this.redisTemplate = redisTemplate;
+        this.redisMessageListenerContainer = redisMessageListenerContainer;
     }
 
     @Override
     public void connect() {
+        redisMessageListenerContainer.addMessageListener(new MultiCacheMessageListener(redisTemplate, this),
+                new ChannelTopic(Constants.MULTI_CACHE_REDIS_TOPIC));
     }
 
     @Override

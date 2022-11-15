@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import java.util.List;
 
 /**
- * TODO
+ * Test
  *
  * @author hackdc
  * @Date 2022/8/14 9:59 AM
@@ -69,9 +69,9 @@ public class MultiCacheTest {
     @Test
     public void evictUserInfoCacheTest() {
         Long userId = 1L;
-        UserInfo userInfo = userInfoCache.getCache(1L);
+//        UserInfo userInfo = userInfoCache.getCache(1L);
         userInfoCache.evict(userId);
-        userInfoCache.getCache(1L);
+//        userInfoCache.getCache(1L);
     }
 
     @Test
