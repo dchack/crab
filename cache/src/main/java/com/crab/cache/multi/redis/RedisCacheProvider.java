@@ -22,6 +22,9 @@ public class RedisCacheProvider<T> implements CacheProvider<T> {
 
     private String bucketKey;
 
+    /**
+     * redis need this type for Deserialize
+     */
     private Type type;
 
     private RedisProperties redisProperties;

@@ -11,8 +11,6 @@ public interface ClusterStrategy {
 
     void publish(Command cmd);
 
-    boolean isLocalCommand(Command cmd);
-
     void handleCommand(Command cmd);
 
 }

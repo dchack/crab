@@ -37,4 +37,13 @@ public class Command {
         this.key = key;
         return this;
     }
+
+    /**
+     * unique identification for command
+     * key is cmd type + cache name + cache key + version
+     * @return
+     */
+    public String getUniqueIdentification() {
+        return type + cacheName + key + version;
+    }
 }

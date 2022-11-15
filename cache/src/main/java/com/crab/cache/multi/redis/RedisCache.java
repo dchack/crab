@@ -30,6 +30,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class RedisCache<T> implements SecondLevelCache<T> {
     private final RedisTemplate<String, String> redisTemplate;
+    /**
+     * redis need this type for Deserialize
+     */
     private final Type type;
     private final String bizKey;
     private final RedisProperties redisProperties;

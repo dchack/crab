@@ -30,6 +30,7 @@ public class RedisClusterStrategy extends AbstractClusterStrategy{
     @Override
     public void publish(Command cmd) {
         cmd.setSource(SOURCE_ID);
+        cmd.setVersion(CommandVersionFactory.getVersion());
         redisTemplate.convertAndSend(Constants.MULTI_CACHE_REDIS_TOPIC, JSON.toJSONString(cmd));
     }
 
