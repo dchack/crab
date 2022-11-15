@@ -18,7 +18,7 @@
 ### 事项
 🪝 支持空值存储 ------done
 
-🪝 编写完整测试用例  ---- doing
+🪝 编写完整测试用例  ---- done
 
 🪝 发布Spring boot starter for cache ---- doing
 
